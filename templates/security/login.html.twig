@@ -3,8 +3,10 @@
 {% block title %}Log in!
 {% endblock %}
 
+
 {% block body %}
-	<form method="post">
+
+	<div class="container">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
@@ -15,35 +17,50 @@
 				<a href="{{ path('app_logout') }}">Logout</a>
 			</div>
 		{% endif %}
-		<div class="row">
-			<div class="contents order-1 order-lg-1">
-				<div class="container">
-					<div class="row align-items-center justify-content-center pb-5">
-						<div class="col-md-7">
-							<h3 class="text-center">Login to
-								<strong>Sistem Informasi Data</strong>
-							</h3>
-							<p class="mb-4 text-center">Pusat Informasi Data Instansi Jawa Timur.</p>
-							<form action="#" method="post">
-								<div class="form-group first">
-									<label for="email">Email</label>
-									<input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-								</div>
-								{# value="{{ last_username }}" #}
-								<div class="form-group last mb-3">
-									<label for="inputPassword">Password</label>
-									<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-									<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-								</div>
 
-								<input type="submit" value="Log In" class="btn btn-block btn-primary">
+		<!-- Outer Row -->
+		<div class="row justify-content-center">
 
-							</form>
+			<div class="col-lg-7">
+
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div
+						class="card-body p-0">
+						<!-- Nested Row within Card Body -->
+						<div class="row">
+							<div class="col-lg">
+								<div class="p-5">
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-4">Login Page</h1>
+									</div>
+
+									<form action="#" method="post">
+										<div class="form-group first">
+											<label for="email">Email</label>
+											<input type="email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+										</div>
+										{# value="{{ last_username }}" #}
+										<div class="form-group last mb-3">
+											<label for="inputPassword">Password</label>
+											<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+											<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+										</div>
+
+										<input type="submit" value="Log In" class="btn btn-block btn-primary">
+
+									</form>
+									<div class="text-center">
+										<a class="small" href={{ path('app_register') }}>Create an Account!</a>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+
 			</div>
+
 		</div>
 
-
-	{% endblock %}
+	</div>
+{% endblock %}

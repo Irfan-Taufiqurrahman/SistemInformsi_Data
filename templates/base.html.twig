@@ -3,12 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}
+				Welcome!
 			{% endblock %}
 		</title>
-		{% block stylesheets %}
-			<link href="{{ asset('assets/css/tables.css') }}" rel="stylesheet" type="text/css"/>
-		{% endblock %}
+		<link href="{{ asset('assets/css/tables.css') }}" rel="stylesheet" type="text/css"/> {% block stylesheets %}{% endblock %}
 
 		<link
 		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
@@ -18,5 +17,19 @@
 
 	{# {{encore_entry_link_tags('')}} #}
 	</head>
-	{% block body %}{% endblock %}
-</html></div></html>{% block javascripts %}<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js" integrity="sha512-a6ctI6w1kg3J4dSjknHj3aWLEbjitAXAjLDRUxo2wyYmDFRcz2RJuQr5M3Kt8O/TtUSp8n2rAyaXYy1sjoKmrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>{% endblock %}
+
+	{% block body %}
+		<body class="g-sidenav-show  bg-gray-100">
+			{% include "Assets/sidebar.html.twig" %}
+
+			{% include "Assets/navbar.html.twig" %}</body>
+	{% endblock %}
+</html>
+{% block javascripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.min.js" integrity="sha512-a6ctI6w1kg3J4dSjknHj3aWLEbjitAXAjLDRUxo2wyYmDFRcz2RJuQr5M3Kt8O/TtUSp8n2rAyaXYy1sjoKmrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script>
+		$(document).ready(function () {
+console.log('sssss')
+})
+	</script>
+{% endblock %}

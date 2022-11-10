@@ -6,8 +6,10 @@ use App\Entity\Data;
 use App\Entity\Dataset;
 use App\Entity\Variable;
 use App\Form\DatasetType;
+use App\Repository\DatasetRepository;
 use App\Repository\VariableRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +20,18 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class DatasetController extends AbstractController
 {
+    /**
+     * @Route("/listDataset", name="view_dataset")
+     */
+    public function viewDataset(ManagerRegistry $managerRegistry, DatasetRepository $datasetRepository): Response
+    {
+        $dataset = $datasetRepository->findAll();
+
+        return $this->render('home/daftarDataset.html.twig', [
+            'dataset' => $dataset,
+        ]);
+    }
+
     /**
      * @Route("/dataset", name="app_dataset")
      */
@@ -80,7 +94,7 @@ class DatasetController extends AbstractController
             $entityManagerInterface->flush();
 
 
-            return $this->redirectToRoute('app_dashboard');
+            return $this->redirectToRoute('view_dataset');
         }
 
         return new Response($twig->render('dataset/index.html.twig', [

@@ -43,120 +43,24 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th>#</th>
-										<th>Full Name</th>
-										<th>Age</th>
-										<th>Job Title</th>
-										<th>City</th>
-										<th>Action</th>
+										{% for items in var %}
+											<td>{{ items.name }}</td>
+										{% endfor %}
+
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Vincent Williamson</td>
-										<td>31</td>
-										<td>iOS Developer</td>
-										<td>Sinaai-Waas</td>
-										<td>
-											<ul class="action-list">
-												<li>
-													<a href="#" data-tip="edit">
-														<i class="fa fa-edit"></i>
-													</a>
-												</li>
-												<li>
-													<a href="#" data-tip="delete">
-														<i class="fa fa-trash"></i>
-													</a>
-												</li>
-											</ul>
-										</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Taylor Reyes</td>
-										<td>22</td>
-										<td>UI/UX Developer</td>
-										<td>Baileux</td>
-										<td>
-											<ul class="action-list">
-												<li>
-													<a href="#" data-tip="edit">
-														<i class="fa fa-edit"></i>
-													</a>
-												</li>
-												<li>
-													<a href="#" data-tip="delete">
-														<i class="fa fa-trash"></i>
-													</a>
-												</li>
-											</ul>
-										</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Justin Block</td>
-										<td>26</td>
-										<td>Frontend Developer</td>
-										<td>Overland Park</td>
-										<td>
-											<ul class="action-list">
-												<li>
-													<a href="#" data-tip="edit">
-														<i class="fa fa-edit"></i>
-													</a>
-												</li>
-												<li>
-													<a href="#" data-tip="delete">
-														<i class="fa fa-trash"></i>
-													</a>
-												</li>
-											</ul>
-										</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>Sean Guzman</td>
-										<td>26</td>
-										<td>Web Designer</td>
-										<td>Gloucester</td>
-										<td>
-											<ul class="action-list">
-												<li>
-													<a href="#" data-tip="edit">
-														<i class="fa fa-edit"></i>
-													</a>
-												</li>
-												<li>
-													<a href="#" data-tip="delete">
-														<i class="fa fa-trash"></i>
-													</a>
-												</li>
-											</ul>
-										</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>Keith Carter</td>
-										<td>20</td>
-										<td>Graphic Designer</td>
-										<td>Oud-Turnhout</td>
-										<td>
-											<ul class="action-list">
-												<li>
-													<a href="#" data-tip="edit">
-														<i class="fa fa-edit"></i>
-													</a>
-												</li>
-												<li>
-													<a href="#" data-tip="delete">
-														<i class="fa fa-trash"></i>
-													</a>
-												</li>
-											</ul>
-										</td>
-									</tr>
+									{% for row in resultSet %}
+										<tr>
+											{% for items in var %}
+												<td>
+													{{ row[items.name] }}
+												</td>
+											{% endfor %}
+
+										</tr>
+									{% endfor %}
+
 								</tbody>
 							</table>
 						</div>

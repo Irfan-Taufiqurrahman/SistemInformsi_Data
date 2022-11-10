@@ -3,26 +3,44 @@
 {% block title %}Register
 {% endblock %}
 
+
 {% block body %}
 	<div class="container">
-		<div class="row">
-			<div class="d-flex bd-highlight">
-				<div class="flex-grow-1 bd-highlight">
-					<h1 class="text-center pb-3">Register</h1>
+		<div class="row justify-content-center">
 
-					{{ form_start(registrationForm) }}
-					{{ form_row(registrationForm.email) }}
-					{{ form_row(registrationForm.plainPassword, {
+			<div class="col-lg-7">
+
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div
+						class="card-body p-0">
+						<!-- Nested Row within Card Body -->
+						<div class="row">
+							<div class="col-lg">
+								<div class="p-5">
+									<div class="text-center">
+										<h1 class="h2 text-gray-900 mb-4">Register</h1>
+									</div>
+
+									{{ form_start(registrationForm) }}
+									{{ form_row(registrationForm.email) }}
+									{{ form_row(registrationForm.plainPassword, {
                         label: 'Password'
                     }) }}
-					{{ form_row(registrationForm.lastname) }}
-					{{ form_row(registrationForm.agreeTerms) }}
+									{{ form_row(registrationForm.lastname) }}
+									{{ form_row(registrationForm.agreeTerms) }}
 
-					<button type="submit" class="btn btn-primary">Register</button>
-					{{ form_end(registrationForm) }}
+									<button type="submit" class="btn btn-primary">Register</button>
+									{{ form_end(registrationForm) }}
+
+
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="p-2 bd-highlight w-50"></div>
 			</div>
+
 		</div>
+
 	</div>
 {% endblock %}
