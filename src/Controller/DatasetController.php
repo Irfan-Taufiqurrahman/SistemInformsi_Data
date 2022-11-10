@@ -47,7 +47,8 @@ class DatasetController extends AbstractController
             $entityManagerInterface->persist($Dataset);
             $response = $client->request(
                 'GET',
-                $Dataset->getLinkAPI()
+                $Dataset->getLinkAPI(),
+                ['verify_host' => false, 'verify_peer' => false]
             );
 
             $entityManagerInterface->flush();
@@ -67,30 +68,56 @@ class DatasetController extends AbstractController
             $content = $response->toArray();
             // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
 
-            $dataResult = $content["result"]["data"];
-            foreach ($dataResult[0] as $key => $Value) {
-                $var = new Variable();
-                $var->setDataset($Dataset);
-                $var->setName($key);
-                $entityManagerInterface->persist($var);
-            }
-            $entityManagerInterface->flush();
-
-            $row_id = 1;
-
-            foreach ($dataResult as $detail) {
-                foreach ($detail as $key => $Value) {
-                    $var = $variableRepository->findOneBy(['name' => $key, 'dataset' => $Dataset]);
-
-                    $Data = new Data();
-                    $Data->setDataset($Dataset);
-                    $Data->setVar($var);
-                    $Data->setContent($Value);
-                    $Data->setRowId($row_id);
-                    $entityManagerInterface->persist($Data);
+            if (isset($content["result"]["data"])) {
+                $dataResult = $content["result"]["data"];
+                foreach ($dataResult[0] as $key => $Value) {
+                    $var = new Variable();
+                    $var->setDataset($Dataset);
+                    $var->setName($key);
+                    $entityManagerInterface->persist($var);
                 }
-                $row_id++;
+                $entityManagerInterface->flush();
+
+                $row_id = 0;
+                foreach ($dataResult as $detail) {
+                    foreach ($detail as $key => $Value) {
+                        $var = $variableRepository->findOneBy(['name' => $key, 'dataset' => $Dataset]);
+
+                        $Data = new Data();
+                        $Data->setDataset($Dataset);
+                        $Data->setVar($var);
+                        $Data->setContent($Value);
+                        $Data->setRowId($row_id);
+                        $entityManagerInterface->persist($Data);
+                    }
+                    $row_id++;
+                }
+            } else {
+                $dataResult = $content;
+                foreach ($dataResult[0] as $key => $Value) {
+                    $var = new Variable();
+                    $var->setDataset($Dataset);
+                    $var->setName($key);
+                    $entityManagerInterface->persist($var);
+                }
+                $entityManagerInterface->flush();
+
+                $row_id = 0;
+                foreach ($dataResult as $detail) {
+                    foreach ($detail as $key => $Value) {
+                        $var = $variableRepository->findOneBy(['name' => $key, 'dataset' => $Dataset]);
+
+                        $Data = new Data();
+                        $Data->setDataset($Dataset);
+                        $Data->setVar($var);
+                        $Data->setContent($Value);
+                        $Data->setRowId($row_id);
+                        $entityManagerInterface->persist($Data);
+                    }
+                    $row_id++;
+                }
             }
+
             $entityManagerInterface->flush();
 
 
@@ -100,5 +127,19 @@ class DatasetController extends AbstractController
         return new Response($twig->render('dataset/index.html.twig', [
             'dataset_form' => $form->createView()
         ]));
+    }
+
+    /**
+     * @Route("/listDataset/{id}", name="delete_dataset")
+     */
+    public function deleteDataset(Dataset $dataset, Request $request, ManagerRegistry $doctrine, EntityManagerInterface $entityManagerInterface): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $dataset->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($dataset);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('view_dataset');
     }
 }
