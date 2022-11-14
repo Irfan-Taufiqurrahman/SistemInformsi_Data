@@ -1,0 +1,23 @@
+<!-- START Modal CreateDataset -->
+
+<div class="modal fade" id="CreateDSModal" tabindex="-1" aria-labelledby="CreateDSModalLabel" aria-hidden="true">
+	<div class="modal-dialog"> {% block form_start %}{% endblock %}
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="CreateDSModalLabel">Create Dataset</h5>
+				<button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+			<div class="modal-body"> {% block body %}{% endblock %}
+				</div>
+				<div class="modal-footer">
+					<a class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+					{% block form_button %}{% endblock %}
+
+				</div>
+			</div>
+			{% block form_end %}{% endblock %}
+		</div>
+	</div>
+	<!-- END Modal CreateDataset -->

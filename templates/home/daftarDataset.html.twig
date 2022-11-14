@@ -14,23 +14,29 @@
 
 	{% endblock %}
 
-	<div class="container">
+	<div class="container pb-5">
 		<div class="row">
 			<div class="col-md-offset-1 col-md-10">
 				<div class="panel">
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col col-sm-3 col-xs-12">
-								<h4 class="title">Data
-									<span>List</span>
+								<h4 class="title">List
+									<span>Dataset</span>
 								</h4>
 							</div>
 							<div class="col-sm-9 col-xs-12 text-right">
-								<div class="btn_group text-end">
-									<a href="{{ path('app_dataset') }}" class="btn btn-default text-dark" title="Reload">
+								<div
+									class="btn_group text-end">
+									<!-- Start of Button Trigger -->
+									<button type="button" class="btn btn-default text-success" data-bs-toggle="modal" data-bs-target="#CreateDSModal">
 										<i class="fa fa-plus"></i>
-									</a>
-									<button class="btn btn-default text-success" title="Excel">
+									</button>
+									<!-- END of Button Trigger -->
+									<!-- Start of Modal PopUP -->
+									{% include "dataset/formCreateDataset.html.twig" %}
+									<!-- End of Modal PopUP -->
+									<button class="btn btn-default text-success" title="Import Excel">
 										<i class="fas fa-file-excel"></i>
 									</button>
 								</div>
@@ -43,7 +49,7 @@
 								<tr>
 									<th>id</th>
 									<th>title</th>
-									<th style="width: 10px">link_api</th>
+									<th>link_api</th>
 									<th>description</th>
 									<th>action</th>
 								</tr>

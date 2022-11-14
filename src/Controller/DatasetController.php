@@ -26,9 +26,12 @@ class DatasetController extends AbstractController
     public function viewDataset(ManagerRegistry $managerRegistry, DatasetRepository $datasetRepository): Response
     {
         $dataset = $datasetRepository->findAll();
+        $Dataset = new Dataset;
+        $form = $this->createForm(DatasetType::class, $Dataset);
 
         return $this->render('home/daftarDataset.html.twig', [
             'dataset' => $dataset,
+            'dataset_form' => $form->createView(),
         ]);
     }
 
@@ -124,7 +127,7 @@ class DatasetController extends AbstractController
             return $this->redirectToRoute('view_dataset');
         }
 
-        return new Response($twig->render('dataset/index.html.twig', [
+        return new Response($twig->render('dataset/formCreateDataset.html.twig', [
             'dataset_form' => $form->createView()
         ]));
     }
