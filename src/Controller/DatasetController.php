@@ -29,7 +29,7 @@ class DatasetController extends AbstractController
         $Dataset = new Dataset;
         $form = $this->createForm(DatasetType::class, $Dataset);
 
-        return $this->render('home/daftarDataset.html.twig', [
+        return $this->render('dataset/daftarDataset.html.twig', [
             'dataset' => $dataset,
             'dataset_form' => $form->createView(),
         ]);

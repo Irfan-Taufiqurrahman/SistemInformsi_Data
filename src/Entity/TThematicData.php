@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TThematicDataRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,23 +20,97 @@ class TThematicData
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TMainData::class, inversedBy="name")
+     * @ORM\Column(type="string", length=255)
      */
-    private $Thematic;
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $code;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TMainData::class, inversedBy="thematicData")
+     */
+    private $mainData;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TTopic::class, mappedBy="thematicData")
+     */
+    private $tTopics;
+
+    public function __construct()
+    {
+        $this->tTopics = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getThematic(): ?TMainData
+    public function getName(): ?string
     {
-        return $this->Thematic;
+        return $this->name;
     }
 
-    public function setThematic(?TMainData $Thematic): self
+    public function setName(string $name): self
     {
-        $this->Thematic = $Thematic;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getMainData(): ?TMainData
+    {
+        return $this->mainData;
+    }
+
+    public function setMainData(?TMainData $mainData): self
+    {
+        $this->mainData = $mainData;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TTopic>
+     */
+    public function getTTopics(): Collection
+    {
+        return $this->tTopics;
+    }
+
+    public function addTTopic(TTopic $tTopic): self
+    {
+        if (!$this->tTopics->contains($tTopic)) {
+            $this->tTopics[] = $tTopic;
+            $tTopic->setThematicData($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTTopic(TTopic $tTopic): self
+    {
+        if ($this->tTopics->removeElement($tTopic)) {
+            // set the owning side to null (unless already changed)
+            if ($tTopic->getThematicData() === $this) {
+                $tTopic->setThematicData(null);
+            }
+        }
 
         return $this;
     }
