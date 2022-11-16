@@ -49,4 +49,18 @@ class MainDataController extends AbstractController
             'mainData_form' => $form->createView()
         ]));
     }
+
+    /**
+     * @Route("/mainData/{id}", name="delete_mainData")
+     */
+    public function deleteMainData(TMainData $tMainData, Request $request, ManagerRegistry $doctrine, EntityManagerInterface $entityManagerInterface): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $tMainData->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($tMainData);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('view_mainData');
+    }
 }
