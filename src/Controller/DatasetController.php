@@ -46,7 +46,6 @@ class DatasetController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManagerInterface->persist($Dataset);
             $response = $client->request(
                 'GET',
