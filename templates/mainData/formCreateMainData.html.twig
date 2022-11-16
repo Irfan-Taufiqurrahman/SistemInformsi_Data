@@ -1,0 +1,29 @@
+{% extends 'Assets/popUp.html.twig' %}
+
+{% block form_start %}
+
+	<form method="post" action="{{ path('create_mainData') }}">
+	{% endblock %}
+
+	{% block body %}
+		<div class="row">
+			<div class="d-flex bd-highlight">
+				<div class="flex-grow-1 bd-highlight">
+					<h1 class="text-center pb-3">Add Main Data</h1>
+
+					{{ form_row(mainData_form.code) }}
+					{{ form_row(mainData_form.name) }}
+
+				</div>
+				{# <div class="p-2 bd-highlight w-50"></div> #}
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block form_button %}
+		<button type="submit" class="btn btn-primary">add</button>
+	{% endblock %}
+
+	{% block form_end %}
+		{{ form_end(mainData_form) }}
+	{% endblock %}

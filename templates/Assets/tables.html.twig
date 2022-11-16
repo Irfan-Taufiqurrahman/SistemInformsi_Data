@@ -3,112 +3,63 @@
 {% block title %}Dashboard
 {% endblock %}
 
-{% block stylesheets %}
-	<link href="{{ asset('assets/css/tables.css') }}" rel="stylesheet" type="text/css"/>
-{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% block body %}
-	<!DOCTYPE html>
-	<html
-		lang="en">
-		<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css /> -->
-		<div class="container">
-			<div class="row">
-				<div class="col-md-offset-1 col-md-10">
-					<div class="panel">
-						<div class="panel-heading">
-							<div class="row">
-								<div class="col col-sm-3 col-xs-12">
-									<h4 class="title">Data
-										<span>List</span>
-									</h4>
-								</div>
-								<div class="col-sm-9 col-xs-12 text-right">
-									<div class="btn_group">
-										<input type="text" class="form-control" placeholder="Search">
-										<button class="btn btn-default" title="Reload">
-											<i class="fa fa-sync-alt"></i>
-										</button>
-										<button class="btn btn-default" title="Pdf">
-											<i class="fa fa-file-pdf"></i>
-										</button>
-										<button class="btn btn-default" title="Excel">
-											<i class="fas fa-file-excel"></i>
-										</button>
-									</div>
-								</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<div class="panel">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col col-sm-3 col-xs-12">
+								<h4 class="title">Data
+									<span>List</span>
+								</h4>
 							</div>
-						</div>
-						<div class="panel-body table-responsive">
-							<table class="table">
-								<thead>
-									<tr>
-										{% for items in var %}
-											<td>{{ items.name }}</td>
-										{% endfor %}
-
-									</tr>
-								</thead>
-								<tbody>
-									{% for row in resultSet %}
-										<tr>
-											{% for items in var %}
-												<td>
-													{{ row[items.name] }}
-												</td>
-											{% endfor %}
-
-										</tr>
-									{% endfor %}
-
-								</tbody>
-							</table>
-						</div>
-						<div class="panel-footer">
-							<div class="row">
-								<div class="col col-sm-6 col-xs-6">showing
-									<b>5</b>
-									out of
-									<b>25</b>
-									entries</div>
-								<div class="col-sm-6 col-xs-6">
-									<ul class="pagination hidden-xs pull-right">
-										<li>
-											<a href="#"></a>
-										</li>
-										<liclass="active">
-											<ahref="#">1</a>
-										</li>
-										<li>
-											<ahref="#">2</a>
-										</li>
-										<li>
-											<ahref="#">3</a>
-										</li>
-										<li>
-											<ahref="#">4</a>
-										</li>
-										<li>
-											<ahref="#">5</a>
-										</li>
-										<li>
-											<ahref="#">></a>
-										</li>
-									</ul>
-									<ul class="pagination visible-xs pull-right">
-										<li>
-											<a href="#"></a>
-										</li>
-										<li>
-											<ahref="#">></a>
-										</li>
-									</ul>
+							<div class="col-sm-9 col-xs-12 text-right">
+								<div class="btn_group">
+									<input type="text" class="form-control" placeholder="Search">
+									<button class="btn btn-default" title="Reload">
+										<i class="fa fa-sync-alt"></i>
+									</button>
+									<button class="btn btn-default" title="Pdf">
+										<i class="fa fa-file-pdf"></i>
+									</button>
+									<button class="btn btn-default" title="Excel">
+										<i class="fas fa-file-excel"></i>
+									</button>
 								</div>
 							</div>
 						</div>
 					</div>
+					<div class="panel-body table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									{% for items in var %}
+										<td>{{ items.name }}</td>
+									{% endfor %}
+
+								</tr>
+							</thead>
+							<tbody>
+								{% for row in resultSet %}
+									<tr>
+										{% for items in var %}
+											<td>
+												{{ row[items.name] }}
+											</td>
+										{% endfor %}
+
+									</tr>
+								{% endfor %}
+
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
-	</html>
+	</div>
 {% endblock %}

@@ -1,20 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ThematicController!{% endblock %}
+{% block title %}List Main Data
+{% endblock %}
+
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	{{ parent() }}
+	{% block stylesheet %}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+	{% endblock %}
+	{% block head %}
+		{{ parent() }}
+	{% endblock %}
+	<div class="container pb-5">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<div class="panel">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col col-sm-3 col-xs-12">
+								<h4 class="title">List
+									<span>Main Data</span>
+								</h4>
+							</div>
+							<div class="col-sm-9 col-xs-12 text-right">
+								<div
+									class="btn_group text-end">
+									<!-- Start of Button Trigger -->
+									<button type="button" class="btn btn-default text-success" data-bs-toggle="modal" data-bs-target="#CreateDSModal">
+										<i class="fa fa-plus"></i>
+									</button>
+									<!-- END of Button Trigger -->
+									<!-- Start of Modal PopUP -->
+									{% include "mainData/formCreateMainData.html.twig" %}
+									<!-- End of Modal PopUP -->
+									<button class="btn btn-default text-success" title="Import Excel">
+										<i class="fas fa-file-excel"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body table-responsive">
+						<table class="table text-center" id="Table_MainData">
+							<thead>
+								<tr>
+									<th>code</th>
+									<th>name</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for row in MainData %}
+									<tr>
+										<td>{{ row.code }}</td>
+										<td>{{ row.name }}</td>
+										<td>
+											<ul class="action-list">
+												<li>
+													<a href="#" data-tip="detail">
+														<button class="btn btn-outline-secondary" type="submit">
+															<i class="fa fa-list"></i>
+														</button>
+													</a>
+												</li>
+												<li>
+													<form method="post" action="#" onsubmit="return confirm('Are you sure you want to delete this item?');">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/SI_DATA_PTI/src/Controller/ThematicController.php'|file_link(0) }}">src/Controller/ThematicController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/SI_DATA_PTI/templates/thematic/index.html.twig'|file_link(0) }}">templates/thematic/index.html.twig</a></code></li>
-    </ul>
-</div>
+														<button class="btn btn-outline-danger" type="submit">
+															<i class="fa fa-trash-o"></i>
+														</button>
+													</form>
+												</li>
+											</ul>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

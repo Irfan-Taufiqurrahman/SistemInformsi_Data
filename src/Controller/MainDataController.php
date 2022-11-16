@@ -12,11 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class MainDataController extends AbstractController
 {
     /**
-     * @Route("listMainData", name="view_mainData")
+     * @Route("/listMainData", name="view_mainData")
      */
     public function viewMainData(ManagerRegistry $managerRegistry, TMainDataRepository $tMainDataRepository): Response
     {
@@ -31,9 +32,9 @@ class MainDataController extends AbstractController
     }
 
     /**
-     * @Route("/thematic", name="create_thematic")
+     * @Route("/mainData", name="create_mainData")
      */
-    public function CreateMainData(Request $request, EntityManagerInterface $entityManagerInterface, TThematicDataRepository $tThematicDataRepository): Response
+    public function CreateMainData(Request $request, EntityManagerInterface $entityManagerInterface, TThematicDataRepository $tThematicDataRepository, Environment $twig)
     {
         $MainData = new TMainData;
         $form = $this->createForm(MainDataType::class, $MainData);
@@ -42,7 +43,10 @@ class MainDataController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManagerInterface->persist($MainData);
             $entityManagerInterface->flush();
-            return $this->redirectToRoute('view_dataset');
+            return $this->redirectToRoute('view_mainData');
         }
+        return new Response($twig->render('mainData/formCreateMainData.html.twig', [
+            'mainData_form' => $form->createView()
+        ]));
     }
 }

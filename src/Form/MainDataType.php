@@ -6,17 +6,18 @@ use App\Entity\TMainData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainDataType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'Title'
-            ])
             ->add('code', TextType::class, [
-                'label' => 'Link API'
+                'label' => 'code'
+            ])
+            ->add('name', TextType::class, [
+                'label' => 'name'
             ]);
     }
 
