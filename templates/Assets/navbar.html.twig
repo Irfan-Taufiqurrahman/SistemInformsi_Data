@@ -15,15 +15,26 @@
 			<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
 				<div class="ms-md-auto pe-md-3 d-flex align-items-center"></div>
 				<ul class="navbar-nav  justify-content-end">
-					<li class="nav-item d-flex align-items-center">
-						<a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-							<span class="d-sm-inline d-none p-4">
+					<li class="nav-item dropdown no-arrow">
+						<a class="nav-link dropdown-toogle" href="javascript:;" id="userDropdown" role="button" data-toogle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="d-sm-inline d-none p-4 d-lg-inline text-gray-600">
 								<i class="fa fa-user me-sm-1"></i>
 								{% if app.user %}
 									{{ app.user.userIdentifier }}
 								</div>
 							{% endif %}
 						</a>
+						<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+							<a class="dropdown-item" href="#">
+								<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+								Profile
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+								<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+								Logout
+							</a>
+						</div>
 					</li>
 				</span>
 			</li>

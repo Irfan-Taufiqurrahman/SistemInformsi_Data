@@ -1,19 +1,18 @@
 {% extends 'Assets/popUp.html.twig' %}
 
 {% block form_start %}
-	{# <p>info</p> #}
-	{# {{ form_start(dataset_form) }} #}
-	<form method="post" action="{{ path('create_dataset_api') }}"> {% endblock %}
+
+	<form method="post" action="{{ path('create_thematic') }}">
+	{% endblock %}
 
 	{% block body %}
 		<div class="row">
 			<div class="d-flex bd-highlight">
 				<div class="flex-grow-1 bd-highlight">
-					<h2 class="text-center pb-3">Add Dataset via link API</h2>
+					<h1 class="text-center pb-3">Add Thematic</h1>
 
-					{{ form_row(dataset_form.title) }}
-					{{ form_row(dataset_form.link_api) }}
-					{{ form_row(dataset_form.description) }}
+					{{ form_row(Thematic_form.code) }}
+					{{ form_row(Thematic_form.name) }}
 
 				</div>
 				{# <div class="p-2 bd-highlight w-50"></div> #}
@@ -26,5 +25,5 @@
 	{% endblock %}
 
 	{% block form_end %}
-		{{ form_end(dataset_form) }}
+		{{ form_end(Thematic_form) }}
 	{% endblock %}

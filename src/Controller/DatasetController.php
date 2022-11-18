@@ -21,7 +21,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class DatasetController extends AbstractController
 {
     /**
-     * @Route("/listDataset", name="view_dataset")
+     * @Route("/listDataset", name="view_dataset_api")
      */
     public function viewDataset(ManagerRegistry $managerRegistry, DatasetRepository $datasetRepository): Response
     {
@@ -29,16 +29,34 @@ class DatasetController extends AbstractController
         $Dataset = new Dataset;
         $form = $this->createForm(DatasetType::class, $Dataset);
 
-        return $this->render('dataset/daftarDataset.html.twig', [
+        return $this->render('dataset/daftarDatasetAPI.html.twig', [
             'dataset' => $dataset,
             'dataset_form' => $form->createView(),
         ]);
     }
 
+
     /**
-     * @Route("/dataset", name="app_dataset")
+     * @Route("/dataset", name="create_dataset")
      */
     public function createDataset(HttpClientInterface $client, Environment $twig, Request $request, EntityManagerInterface $entityManagerInterface, VariableRepository $variableRepository)
+    {
+        $Dataset = new Dataset;
+        $form = $this->createForm(DatasetType::class, $Dataset);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManagerInterface->persist($Dataset);
+        }
+    }
+
+
+
+    /**
+     * @Route("/dataset_api", name="create_dataset_api")
+     */
+    public function createDatasetAPI(HttpClientInterface $client, Environment $twig, Request $request, EntityManagerInterface $entityManagerInterface, VariableRepository $variableRepository)
     {
         $Dataset = new Dataset;
         $form = $this->createForm(DatasetType::class, $Dataset);
@@ -123,13 +141,17 @@ class DatasetController extends AbstractController
             $entityManagerInterface->flush();
 
 
-            return $this->redirectToRoute('view_dataset');
+            return $this->redirectToRoute('view_dataset_api');
         }
 
         return new Response($twig->render('dataset/formCreateDataset.html.twig', [
             'dataset_form' => $form->createView()
         ]));
     }
+
+
+
+
 
     /**
      * @Route("/listDataset/{id}", name="delete_dataset")
@@ -142,6 +164,6 @@ class DatasetController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('view_dataset');
+        return $this->redirectToRoute('view_dataset_api');
     }
 }
