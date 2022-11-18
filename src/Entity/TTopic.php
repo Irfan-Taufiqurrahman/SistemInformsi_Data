@@ -35,7 +35,7 @@ class TTopic
     private $thematicData;
 
     /**
-     * @ORM\OneToMany(targetEntity=TSubTopic::class, mappedBy="Topic")
+     * @ORM\OneToMany(targetEntity=TSubTopic::class, mappedBy="Topic", cascade={"persist", "remove"})
      */
     private $tSubTopics;
 

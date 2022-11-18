@@ -2,7 +2,7 @@
 
 {% block form_start %}
 
-	<form method="post" action="{{ path('create_thematic') }}">
+	<form method="post" action="{{ path('create_thematic', {id:MainData.id}) }}">
 	{% endblock %}
 
 	{% block body %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\TThematicData;
 use App\Form\ThematicType;
+use App\Repository\TMainDataRepository;
 use App\Repository\TThematicDataRepository;
 use App\Repository\TTopicRepository;
 use Doctrine\ORM\EntityManager;
@@ -21,8 +22,10 @@ class ThematicController extends AbstractController
     /**
      * @Route("/listThematic/{id}", name="view_thematic")
      */
-    public function viewThematic(?string $id, ManagerRegistry $managerRegistry, TThematicDataRepository $tThematicDataRepository): Response
+    public function viewThematic(?string $id, ManagerRegistry $managerRegistry, TThematicDataRepository $tThematicDataRepository, TMainDataRepository $tMainDataRepository): Response
     {
+        //untuk mengambil id MainData dari table MainData
+        $MainData = $tMainDataRepository->find($id);
         //main data sebagai key, $id sebagai value (sesuai dengan struktur array)
         $Thematic = $tThematicDataRepository->findBy(['mainData' => $id]);
 
@@ -32,25 +35,38 @@ class ThematicController extends AbstractController
         return $this->render('thematic/viewThematic.html.twig', [
             'Thematic' => $Thematic,
             'Thematic_form' => $form->createView(),
+            'MainData' => $MainData,
         ]);
     }
 
     /**
-     * @Route("/thematic", name="create_thematic")
+     * @Route("/thematic/{id}", name="create_thematic")
      */
-    public function createThematic(Request $request, EntityManagerInterface $entityManagerInterface, TTopicRepository $tTopicRepository, Environment $twig): Response
+    public function createThematic(?string $id, Request $request, EntityManagerInterface $entityManagerInterface, TTopicRepository $tTopicRepository, Environment $twig, TMainDataRepository $tMainDataRepository): Response
     {
+        $MainData = $tMainDataRepository->find($id);
         $thematic = new TThematicData;
         $form = $this->createForm(ThematicType::class, $thematic);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //mengambil input an kode tematik
+            $codeThematic = $thematic->getCode();
+            //mengambil kode MainData
+            $CodeMainData = $MainData->getCode();
+            //meng set kode mainData agar tergabung dengan kode tematik
+            $thematic->setCode($CodeMainData . "." . $codeThematic);
+            //set parentnya
+            $thematic->setMainData($MainData);
             $entityManagerInterface->persist($thematic);
             $entityManagerInterface->flush();
-            return $this->redirectToRoute('view_thematic');
+            return $this->redirectToRoute('view_thematic', [
+                'id' => $id
+            ]);
         }
         return new Response($twig->render('thematic/formCreateThematic.html.twig', [
-            'Thematic_form' => $form->createView()
+            'Thematic_form' => $form->createView(),
+            'MainData' => $MainData,
         ]));
     }
 

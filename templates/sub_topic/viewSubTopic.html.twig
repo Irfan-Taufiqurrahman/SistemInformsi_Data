@@ -19,7 +19,7 @@
 						<div class="row">
 							<div class="col col-sm-6 col-xs-12">
 								<h4 class="title">List
-									<span>Topic Data</span>
+									<span>SubTopic Data</span>
 								</h4>
 							</div>
 							<div class="col-sm-6 col-xs-12 text-right">
@@ -31,7 +31,7 @@
 									</button>
 									<!-- END of Button Trigger -->
 									<!-- Start of Modal PopUP -->
-									{% include "topic/formCreateTopic.html.twig" %}
+									{% include "sub_topic/formCreateSubTopic.html.twig" %}
 									<!-- End of Modal PopUP -->
 									<button class="btn btn-default text-success" title="Import Excel">
 										<i class="fas fa-file-excel"></i>
@@ -50,21 +50,21 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for row in Topic %}
+								{% for row in SubTopic %}
 									<tr>
 										<td>{{ row.code }}</td>
 										<td>{{ row.name }}</td>
 										<td>
 											<ul class="action-list">
 												<li>
-													<a href="{{ path('view_SubTopic', {id:row.id}) }}" data-tip="detail">
+													<a href="#" data-tip="detail">
 														<button class="btn btn-outline-secondary" type="submit">
 															<i class="fa fa-list"></i>
 														</button>
 													</a>
 												</li>
 												<li>
-													<form method="post" action="{{ path('delete_topic', {'id':row.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+													<form method="post" action="{{ path('delete_SubTopic', {'id':row.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
 														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ row.id) }}">
 														<button class="btn btn-outline-danger" type="submit">
 															<i class="fa fa-trash-o"></i>

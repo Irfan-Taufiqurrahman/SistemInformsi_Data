@@ -30,7 +30,7 @@ class TMainData
     private $code;
 
     /**
-     * @ORM\OneToMany(targetEntity=TThematicData::class, mappedBy="mainData")
+     * @ORM\OneToMany(targetEntity=TThematicData::class, mappedBy="mainData", cascade={"persist", "remove"})
      */
     private $thematicData;
 
