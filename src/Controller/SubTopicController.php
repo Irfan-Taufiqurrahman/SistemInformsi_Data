@@ -3,10 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TSubTopic;
-use App\Entity\TThematicData;
-use App\Entity\TTopic;
 use App\Form\SubTopicType;
-use App\Form\TopicType;
 use App\Repository\TSubTopicRepository;
 use App\Repository\TTopicRepository;
 use Doctrine\ORM\EntityManagerInterface;
