@@ -35,7 +35,7 @@
 							<tr>
 								{% for items in var %}
 									<td>
-										{{ row[items.name] }}
+										{{ row[items.name|lower()] }}
 									</td>
 
 								{% endfor %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Data;
 use App\Entity\Dataset;
 use App\Entity\Variable;
+use App\Form\DatasetExcelType;
 use App\Form\DatasetType;
 use App\Repository\DatasetRepository;
 use App\Repository\VariableRepository;
@@ -17,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class DatasetController extends AbstractController
 {
@@ -32,26 +34,74 @@ class DatasetController extends AbstractController
         return $this->render('dataset/daftarDatasetAPI.html.twig', [
             'dataset' => $dataset,
             'dataset_form' => $form->createView(),
+            'datasetExcel_form' => $form->createView(),
         ]);
     }
 
-
     /**
-     * @Route("/dataset", name="create_dataset")
+     * @Route("/dataset", name="create_dataset_excel")
      */
-    public function createDataset(HttpClientInterface $client, Environment $twig, Request $request, EntityManagerInterface $entityManagerInterface, VariableRepository $variableRepository)
+    public function createDatasetExcel(HttpClientInterface $client, Environment $twig, Request $request, EntityManagerInterface $entityManagerInterface, VariableRepository $variableRepository)
     {
         $Dataset = new Dataset;
-        $form = $this->createForm(DatasetType::class, $Dataset);
+        $form = $this->createForm(DatasetExcelType::class, $Dataset);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data_file = $request->files->get("file");
+            $file_name = md5(uniqid() . $data_file->getClientOriginalName()) . '.' . $data_file->guessExtension();
+
+            $Dataset->setLinkAPI($file_name);
+            $upload_dir =  $this->getParameter('upload_directory');
+
+            $data_file->move(
+                $upload_dir,
+                $file_name
+            );
+            //fungsinya untuk prepare
             $entityManagerInterface->persist($Dataset);
+            $spreadsheet = IOFactory::load($upload_dir . '/' . $Dataset->getLinkAPI());
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            $dataResult = $sheetData;
+            $tempVar = [];
+            foreach ($dataResult[1] as $key => $Value) {
+                $var = new Variable;
+                $var->setDataset($Dataset);
+                $var->setName($Value);
+                $entityManagerInterface->persist($var);
+
+                $tempVar[] = $var;
+            }
+
+            $entityManagerInterface->flush();
+
+            unset($dataResult[1]);
+
+            $row_id = 0;
+            foreach ($dataResult as $detail) {
+                $detail = array_values($detail);
+                foreach ($detail as $key => $Value) {
+                    // $var = $variableRepository->findOneBy(['name' => $key, 'dataset' => $Dataset]);
+
+                    $Data = new Data();
+                    $Data->setDataset($Dataset);
+                    $Data->setVar($tempVar[$key]);
+                    $Data->setContent($Value);
+                    $Data->setRowId($row_id);
+                    $entityManagerInterface->persist($Data);
+                }
+                $row_id++;
+            }
+            $entityManagerInterface->flush();
+            return $this->redirectToRoute('view_dataset_api');
         }
+
+
+        return new Response($twig->render('dataset/formCreateDatasetExcel.html.twig', [
+            'datasetExcel_form' => $form->createView()
+        ]));
     }
-
-
 
     /**
      * @Route("/dataset_api", name="create_dataset_api")
@@ -149,10 +199,6 @@ class DatasetController extends AbstractController
         ]));
     }
 
-
-
-
-
     /**
      * @Route("/listDataset/{id}", name="delete_dataset")
      */
@@ -163,7 +209,6 @@ class DatasetController extends AbstractController
             $entityManager->remove($dataset);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('view_dataset_api');
     }
 }

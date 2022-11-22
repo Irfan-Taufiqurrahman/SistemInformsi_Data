@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{# <p>info</p> #}
+
+{% block body %}
+	{{ parent() }}
+	<div class="container">
+		{{ form_start(datasetExcel_form, {'attr': {"enctype":"multipart/form-data"}}) }}
+		{# <form method="post" action="{{ path('create_dataset_excel') }}" enctype="multipart/form-data">  #}
+		<div class="row">
+			<div class="d-flex bd-highlight">
+				<div class="flex-grow-1 bd-highlight">
+					<h2 class="text-center pb-3">Add Dataset via Table Excel</h2>
+
+					{{ form_row(datasetExcel_form.title) }}
+					{# {{ form_row(dataset_form.link_api) }} #}
+					{{ form_row(datasetExcel_form.description) }}
+					<div class="mb-3">
+						<label for="dataset_excel_file" class="form-label required">Title</label><input type="file" id="dataset_excel_file" name="file" required="required" class="form-control">
+					</div>
+				</div>
+				{# <div class="p-2 bd-highlight w-50"></div> #}
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">add</button>
+		{# </form> #}
+		{{ form_end(datasetExcel_form) }}
+	</div>
+{% endblock %}

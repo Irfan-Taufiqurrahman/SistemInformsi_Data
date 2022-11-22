@@ -47,6 +47,8 @@ class DashboardController extends AbstractController
 
         //ambil data dari proses eksekusi sql lalu diolah menjadi array
         $resultSet = $resultSet->fetchAll();
+        // dump($resultSet);
+        // exit;
 
         return $this->render('dashboard/daftarData.html.twig', [
             'resultSet' => $resultSet,
