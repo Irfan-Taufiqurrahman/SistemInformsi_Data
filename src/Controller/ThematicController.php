@@ -71,16 +71,16 @@ class ThematicController extends AbstractController
     }
 
     /**
-     * @Route("/thematic/{id}", name="delete_thematic")
+     * @Route("/thematic/{id}/delete_thematic", name="delete_thematic")
      */
-    public function deleteThematic(TThematicData $tThematicData, Request $request, ManagerRegistry $doctrine, EntityManagerInterface $entityManagerInterface): Response
+    public function deleteThematic(?string $id = null, TMainDataRepository $tMainDataRepository, TThematicDataRepository $tThematicDataRepo, Request $request, ManagerRegistry $doctrine, EntityManagerInterface $entityManagerInterface): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $tThematicData->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($tThematicData);
-            $entityManager->flush();
-        }
+        $tematic = $tThematicDataRepo->find($id);
 
-        return $this->redirectToRoute('view_thematic');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($tematic);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('view_thematic', ['id' => $tematic->getMainData()->getId()]);
     }
 }

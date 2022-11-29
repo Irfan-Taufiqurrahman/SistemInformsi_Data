@@ -4,82 +4,78 @@
 {% endblock %}
 
 {% block body %}
+{{ parent() }}
+{% block stylesheet %}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+{% endblock %}
+{% block head %}
 	{{ parent() }}
-	{% block stylesheet %}
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-	{% endblock %}
-	{% block head %}
-		{{ parent() }}
-	{% endblock %}
-	<div class="container pb-5">
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<div class="panel">
-					<div class="panel-heading">
-						<div class="row">
-							<div class="col col-sm-6 col-xs-12">
-								<h4 class="title">List
-									<span>Topic Data</span>
-								</h4>
-							</div>
-							<div class="col-sm-6 col-xs-12 text-right">
-								<div
-									class="btn_group text-end">
-									<!-- Start of Button Trigger -->
-									<button type="button" class="btn btn-default text-success" data-bs-toggle="modal" data-bs-target="#CreateDSModal">
-										<i class="fa fa-plus"></i>
-									</button>
-									<!-- END of Button Trigger -->
-									<!-- Start of Modal PopUP -->
-									{% include "topic/formCreateTopic.html.twig" %}
-									<!-- End of Modal PopUP -->
-									<button class="btn btn-default text-success" title="Import Excel">
-										<i class="fas fa-file-excel"></i>
-									</button>
-								</div>
+{% endblock %}
+<div class="container pb-5">
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<div class="panel">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col col-sm-6 col-xs-12">
+							<h4 class="title">List
+								<span>Topic Data</span>
+							</h4>
+						</div>
+						<div class="col-sm-6 col-xs-12 text-right">
+							<div
+								class="btn_group text-end">
+								<!-- Start of Button Trigger -->
+								<button type="button" class="btn btn-default text-success" data-bs-toggle="modal" data-bs-target="#CreateDSModal">
+									<i class="fa fa-plus"></i>
+								</button>
+								<!-- END of Button Trigger -->
+								<!-- Start of Modal PopUP -->
+								{% include "topic/formCreateTopic.html.twig" %}
+								<!-- End of Modal PopUP -->
+								<button class="btn btn-default text-success" title="Import Excel">
+									<i class="fas fa-file-excel"></i>
+								</button>
 							</div>
 						</div>
 					</div>
-					<div class="panel-body table-responsive">
-						<table class="table text-center" id="Table_MainData">
-							<thead>
-								<tr>
-									<th>code</th>
-									<th>name</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for row in Topic %}
-									<tr>
-										<td>{{ row.code }}</td>
-										<td>{{ row.name }}</td>
-										<td>
-											<ul class="action-list">
-												<li>
-													<a href="{{ path('view_SubTopic', {id:row.id}) }}" data-tip="detail">
-														<button class="btn btn-outline-secondary" type="submit">
-															<i class="fa fa-list"></i>
-														</button>
-													</a>
-												</li>
-												<li>
-													<form method="post" action="{{ path('delete_topic', {'id':row.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ row.id) }}">
-														<button class="btn btn-outline-danger" type="submit">
-															<i class="fa fa-trash-o"></i>
-														</button>
-													</form>
-												</li>
-											</ul>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-{% endblock %}
+				<div class="panel-body table-responsive">
+					<table class="table text-center" id="Table_MainData">
+						<thead>
+							<tr>
+								<th>code</th>
+								<th>name</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in Topic %}
+								<tr>
+									<td>{{ row.code }}</td>
+									<td>{{ row.name }}</td>
+									<td>
+										<ul class="action-list">
+											<li>
+												<a href="{{ path('view_SubTopic', {id:row.id}) }}" data-tip="detail">
+													<button class="btn btn-outline-secondary" type="submit">
+														<i class="fa fa-list"></i>
+													</button>
+												</a>
+											</li>
+											<li>
+												<a class="btn btn-outline-danger" href="{{ path('delete_topic', {'id':row.id}) }}" data-tip="delete">
+													<i class="fa fa-trash-o"></i>
+												</a>
+											</li>
+										</li>
+									</td>
+								</tr>
+							</form>
+						</tbody>
+					</td>
+				</tr>
+			</li>
+		</tbody>
+	</ul>
+</td></tr>{% endfor %}</tbody></table></div></div></div></div></div> {% endblock %}

@@ -67,16 +67,18 @@ class TopicController extends AbstractController
     }
 
     /**
-     * @Route("/topic/{id}", name="delete_topic")
+     * @Route("/topic/{id}/delete_topic", name="delete_topic")
      */
-    public function deleteTopic(TTopic $tTopic, Request $request, ManagerRegistry $doctrine, EntityManagerInterface $entityManagerInterface): Response
+    public function deleteTopic(?string $id, TTopicRepository $tTopicRepository, Request $request, ManagerRegistry $doctrine, EntityManagerInterface $entityManagerInterface): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $tTopic->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($tTopic);
-            $entityManager->flush();
-        }
+        $topic = $tTopicRepository->find($id);
 
-        return $this->redirectToRoute('view_thematic');
+        // if ($this->isCsrfTokenValid('delete' . $tTopic->getId(), $request->request->get('_token'))) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($topic);
+        $entityManager->flush();
+        // }
+
+        return $this->redirectToRoute('view_topic', ['id' => $topic->getThematicData()->getId()]);
     }
 }
