@@ -32,6 +32,16 @@ class TSubTopic
      */
     private $Topic;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $formula;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $value;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +79,30 @@ class TSubTopic
     public function setTopic(?TTopic $Topic): self
     {
         $this->Topic = $Topic;
+
+        return $this;
+    }
+
+    public function getFormula(): ?string
+    {
+        return $this->formula;
+    }
+
+    public function setFormula(?string $formula): self
+    {
+        $this->formula = $formula;
+
+        return $this;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(?string $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }

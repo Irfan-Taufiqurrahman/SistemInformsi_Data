@@ -45,7 +45,9 @@
 							<thead>
 								<tr>
 									<th>code</th>
-									<th>name</th>
+									<th>Indikator</th>
+									<th>Rumus</th>
+									<th>Hasil</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -54,15 +56,10 @@
 									<tr>
 										<td>{{ row.code }}</td>
 										<td>{{ row.name }}</td>
+										<td>{{ row.formula }}</td>
+										<td>{{ row.value }}</td>
 										<td>
 											<ul class="action-list">
-												<li>
-													<a href="#" data-tip="detail">
-														<button class="btn btn-outline-secondary" type="submit">
-															<i class="fa fa-list"></i>
-														</button>
-													</a>
-												</li>
 												<li>
 													<form method="post" action="{{ path('delete_SubTopic', {'id':row.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
 														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ row.id) }}">

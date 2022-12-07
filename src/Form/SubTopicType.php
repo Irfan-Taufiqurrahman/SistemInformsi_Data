@@ -17,7 +17,13 @@ class SubTopicType extends AbstractType
                 'label' => 'code'
             ])
             ->add('name', TextType::class, [
-                'label' => 'name'
+                'label' => 'indikator'
+            ])
+            ->add('formula', TextType::class, [
+                'label' => 'rumus'
+            ])
+            ->add('value', TextType::class, [
+                'label' => 'hasil'
             ]);
     }
 
